@@ -1,4 +1,4 @@
-Import-Module \\docs.ghc.local\Departments\Public\DHCPAlternateConfiguration\DHCPAlternateConfiguration
+Import-Module DHCPAlternateConfiguration
 
 # Check if NIC is statically assigned.
 $WMI_Nic = Get-WmiObject win32_networkadapterconfiguration -filter "ipenabled = 'true'"
