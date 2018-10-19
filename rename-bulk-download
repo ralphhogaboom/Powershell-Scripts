@@ -1,0 +1,24 @@
+function rename() {
+    $inc = 0
+    # Get current directory
+    $dir = Get-ChildItem -path . -filter "*.mp4" | Sort-Object -property CreationTime
+    # get files inside
+    foreach ($file in $dir) {
+        $inc++
+        if ($inc -lt 10) {
+            $prefix = "0" + $inc.tostring()
+        } else {
+            $prefix = $inc.tostring()
+        }
+        If ($file.Name.substring(0,2) -match "[0-9]") {
+            "Already has number prefix, skipping"
+        } else {
+            Rename-Item $file.Name -Newname ($prefix + " " + $file.Name)
+        }
+    }
+    # go through them and add an increment
+}
+
+foreach ($dir in (Get-ChildItem -path .)) {
+    cd $dir.Name
+}
