@@ -1,0 +1,18 @@
+function RunSQL {
+    param(
+        [string] $sql = $(throw "Please specify a query."),
+        [string] $database = $(throw "Please specify the database."),
+        [string] $server = $(throw "Please specify the server name or IP address."),
+        [Parameter(Mandatory=$false)] $debug
+    )
+    if ($debug -eq $true) { write-host "  [SQL] $sql"}
+    $connectionString = "Data Source=$server;Integrated Security=True;Initial Catalog=$database"
+    $connection = new-object system.data.SqlClient.SQLConnection($connectionString)
+    $command = new-object system.data.sqlclient.sqlcommand($sql,$connection)
+    $connection.Open()
+    $adapter = New-Object System.Data.sqlclient.sqlDataAdapter $command
+    $dataset = New-Object System.Data.DataSet
+    $adapter.Fill($dataSet) | Out-Null
+    $connection.Close()
+    $dataSet.Tables
+}
